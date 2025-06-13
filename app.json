@@ -3,6 +3,7 @@
     "name": "Todo-app",
     "slug": "Todo-app",
     "version": "1.0.0",
+    "scheme": "todo-app",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -24,6 +25,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": ["expo-router"]
   }
 }
