@@ -1,5 +1,10 @@
 import { Tabs } from "expo-router";
-import { AntDesign, FontAwesome6, Octicons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  FontAwesome6,
+  MaterialIcons,
+  Octicons,
+} from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { View } from "react-native";
 
@@ -121,11 +126,15 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="notification"
+        name="calendar"
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <Feather name="bell" size={theme.iconSize} color={color} />
+            <MaterialIcons
+              name="insert-chart"
+              size={theme.iconSize}
+              color={color}
+            />
           ),
         }}
       />

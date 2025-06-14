@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 
-export default function Notification() {
+export default function Calendar() {
   return (
     <View>
-      <Text>Notification</Text>
+      <Text>Calendar</Text>
     </View>
   );
 }
