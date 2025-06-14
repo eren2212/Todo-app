@@ -4,4 +4,5 @@ export const colors = {
   tertiary: "#6055EF",
   quaternary: "#6055EF",
   quinary: "#6055EF",
+  waterGreen: "#65CFF0",
 };

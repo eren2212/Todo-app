@@ -1,15 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { Alert, Text } from "react-native";
-import { router } from "expo-router";
 import {
-  AuthPageTemplate,
-  FloatingImage,
-  AnimatedContainer,
-  AnimatedInput,
-  AnimatedFormButton,
-  AnimatedLink,
-} from "@/components/animations";
+  Alert,
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StatusBar,
+  Image,
+} from "react-native";
+import { router } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withTiming,
+  withSpring,
+  Easing,
+} from "react-native-reanimated";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -17,6 +30,36 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Animation values
+  const imageFloat = useSharedValue(0);
+  const cardSlide = useSharedValue(100);
+
+  useEffect(() => {
+    // Image floating animation
+    imageFloat.value = withRepeat(
+      withTiming(8, {
+        duration: 3500,
+        easing: Easing.inOut(Easing.sin),
+      }),
+      -1,
+      true
+    );
+
+    // Card slide up animation
+    cardSlide.value = withSpring(0, {
+      damping: 20,
+      stiffness: 90,
+    });
+  }, []);
+
+  const imageAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: imageFloat.value }],
+  }));
+
+  const cardAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: cardSlide.value }],
+  }));
 
   async function signUpWithEmail() {
     if (!fullName.trim()) {
@@ -69,112 +112,150 @@ export default function SignUp() {
     setLoading(false);
   }
 
-  // Header içeriği
-  const headerContent = (
-    <>
-      <FloatingImage
-        source={require("../../../assets/images/giris.png")}
-        width={280}
-        height={280}
-        floatDistance={10}
-        duration={4500}
-      />
-
-      <AnimatedContainer
-        animationType="fadeIn"
-        duration={1500}
-        delay={800}
-        repeat={false}
-      >
-        <Text className="text-white text-3xl font-bold mb-2 text-center">
-          Hesap Oluştur 🚀
-        </Text>
-      </AnimatedContainer>
-
-      <AnimatedContainer
-        animationType="slideIn"
-        duration={1200}
-        delay={1200}
-        repeat={false}
-      >
-        <Text className="text-white/80 text-base text-center leading-6">
-          Yeni hesabınızı oluşturun{"\n"}ve todo dünyasına katılın
-        </Text>
-      </AnimatedContainer>
-    </>
-  );
-
-  // Card içeriği
-  const cardContent = (
-    <>
-      <AnimatedContainer animationType="fadeIn" delay={600} repeat={false}>
-        <Text className="text-2xl font-bold text-gray-800 mb-2 text-center">
-          Kayıt Ol
-        </Text>
-        <Text className="text-sm text-gray-500 mb-6 text-center">
-          Bilgilerinizi girerek hesap oluşturun
-        </Text>
-      </AnimatedContainer>
-
-      <AnimatedInput
-        label="Ad Soyad"
-        placeholder="Adınız ve soyadınız"
-        value={fullName}
-        onChangeText={setFullName}
-        autoCapitalize="words"
-        delay={700}
-      />
-
-      <AnimatedInput
-        label="Email Adresi"
-        placeholder="ornek@email.com"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-        delay={850}
-      />
-
-      <AnimatedInput
-        label="Şifre"
-        placeholder="En az 6 karakter"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        autoCapitalize="none"
-        delay={1000}
-      />
-
-      <AnimatedInput
-        label="Şifre Tekrar"
-        placeholder="Şifrenizi tekrar girin"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-        autoCapitalize="none"
-        delay={1150}
-        containerClassName="mb-8"
-      />
-
-      <AnimatedFormButton
-        title="Hesap Oluştur"
-        loadingTitle="Hesap Oluşturuluyor..."
-        onPress={signUpWithEmail}
-        loading={loading}
-        delay={1300}
-      />
-
-      <AnimatedLink
-        text="Zaten hesabınız var mı?"
-        linkText="Giriş Yap"
-        onPress={() => router.replace("/(auth)/signin")}
-        delay={1450}
-      />
-    </>
-  );
-
   return (
-    <AuthPageTemplate headerContent={headerContent} cardContent={cardContent} />
+    <>
+      <StatusBar barStyle="light-content" backgroundColor="#6366f1" />
+      <SafeAreaView style={{ flex: 1 }}>
+        <LinearGradient
+          colors={["#6366f1", "#8b5cf6", "#a855f7"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{ flex: 1 }}
+        >
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <ScrollView
+              contentContainerStyle={{ flexGrow: 1 }}
+              showsVerticalScrollIndicator={false}
+            >
+              <View className="flex-1 px-6 pt-12">
+                {/* Header Section */}
+                <View className="items-center mb-8">
+                  <Animated.View style={[imageAnimatedStyle]}>
+                    <Image
+                      source={require("../../../assets/images/giris.png")}
+                      style={{
+                        width: 180,
+                        height: 180,
+                        borderRadius: 90, // Oval shape
+                      }}
+                      resizeMode="cover"
+                    />
+                  </Animated.View>
+
+                  <Text className="text-white text-3xl font-bold mb-2 text-center mt-4">
+                    Hesap Oluştur 🚀
+                  </Text>
+
+                  <Text className="text-white/80 text-base text-center leading-6">
+                    Yeni hesabınızı oluşturun{"\n"}ve todo dünyasına katılın
+                  </Text>
+                </View>
+
+                {/* Card Section */}
+                <Animated.View style={[{ flex: 1 }, cardAnimatedStyle]}>
+                  <View className="bg-white rounded-t-3xl flex-1 px-6 pt-8 pb-5 shadow-lg">
+                    <Text className="text-2xl font-bold text-gray-800 mb-2 text-center">
+                      Kayıt Ol
+                    </Text>
+                    <Text className="text-sm text-gray-500 mb-6 text-center">
+                      Bilgilerinizi girerek hesap oluşturun
+                    </Text>
+
+                    {/* Full Name Input */}
+                    <View className="mb-4">
+                      <Text className="text-gray-700 text-sm font-medium mb-2">
+                        Ad Soyad
+                      </Text>
+                      <TextInput
+                        className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-800"
+                        placeholder="Adınız ve soyadınız"
+                        value={fullName}
+                        onChangeText={setFullName}
+                        autoCapitalize="words"
+                      />
+                    </View>
+
+                    {/* Email Input */}
+                    <View className="mb-4">
+                      <Text className="text-gray-700 text-sm font-medium mb-2">
+                        Email Adresi
+                      </Text>
+                      <TextInput
+                        className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-800"
+                        placeholder="ornek@email.com"
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                      />
+                    </View>
+
+                    {/* Password Input */}
+                    <View className="mb-4">
+                      <Text className="text-gray-700 text-sm font-medium mb-2">
+                        Şifre
+                      </Text>
+                      <TextInput
+                        className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-800"
+                        placeholder="En az 6 karakter"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        autoCapitalize="none"
+                      />
+                    </View>
+
+                    {/* Confirm Password Input */}
+                    <View className="mb-6">
+                      <Text className="text-gray-700 text-sm font-medium mb-2">
+                        Şifre Tekrar
+                      </Text>
+                      <TextInput
+                        className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-800"
+                        placeholder="Şifrenizi tekrar girin"
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                        secureTextEntry
+                        autoCapitalize="none"
+                      />
+                    </View>
+
+                    {/* Sign Up Button */}
+                    <TouchableOpacity
+                      className="bg-blue-600 rounded-xl py-4 mb-6"
+                      onPress={signUpWithEmail}
+                      disabled={loading}
+                      style={{ opacity: loading ? 0.7 : 1 }}
+                    >
+                      <Text className="text-white text-center font-semibold text-lg">
+                        {loading ? "Hesap Oluşturuluyor..." : "Hesap Oluştur"}
+                      </Text>
+                    </TouchableOpacity>
+
+                    {/* Sign In Link */}
+                    <View className="flex-row justify-center">
+                      <Text className="text-gray-600 text-sm">
+                        Zaten hesabınız var mı?{" "}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => router.replace("/(auth)/signin")}
+                      >
+                        <Text className="text-blue-600 text-sm font-medium">
+                          Giriş Yap
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </Animated.View>
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </LinearGradient>
+      </SafeAreaView>
+    </>
   );
 }
