@@ -67,9 +67,9 @@ export default function App() {
         <View className="flex-row items-center justify-between mt-10  p-2">
           <FontAwesome
             name="search"
-            size={27}
+            size={28}
             color="gainsboro"
-            className=" border-white/30  p-4 bg-white rounded-l-3xl border-2"
+            className=" border-white/30  p-[16px] bg-white rounded-l-3xl border-2"
           />
           <TextInput
             placeholder="Arama Yapın"
