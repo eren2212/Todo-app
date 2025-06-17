@@ -7,19 +7,19 @@ export type User = {
 };
 
 export enum TaskCategory {
-  Work = "Work",
-  Personal = "Personal",
-  Shopping = "Shopping",
-  Health = "Health",
-  Other = "Other",
-  Finance = "Finance",
-  Learning = "Learning",
+  Work = "İş",
+  Personal = "Kişisel",
+  Shopping = "Alışveriş",
+  Health = "Sağlık",
+  Other = "Diğer",
+  Finance = "Finans",
+  Learning = "Öğrenme",
 }
 
 export enum TaskPriority {
-  Low = "Low",
-  Medium = "Medium",
-  High = "High",
+  Low = "Düşük",
+  Medium = "Orta",
+  High = "Yüksek",
 }
 
 export type Task = {

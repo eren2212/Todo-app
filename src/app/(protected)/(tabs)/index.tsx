@@ -11,13 +11,12 @@ import {
   View,
 } from "react-native";
 import { FlatList } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "@/color";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 
-export default function App() {
+export default function HomeScreen() {
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
 
@@ -64,23 +63,32 @@ export default function App() {
           </View>
         </View>
 
-        <View className="flex-row items-center justify-between mt-10  p-2">
-          <FontAwesome
-            name="search"
-            size={28}
-            color="gainsboro"
-            className=" border-white/30  p-[16px] bg-white rounded-l-3xl border-2"
-          />
-          <TextInput
-            placeholder="Arama Yapın"
-            className="bg-white rounded-r-3xl p-6  flex-1 "
-          />
+        <View className="flex-row items-center mt-10 mx-2">
+          {/* Search Container */}
+          <View className="flex-1 flex-row items-center bg-white rounded-2xl shadow-sm border border-gray-100">
+            {/* Search Icon */}
+            <View className="pl-6 pr-4 py-4">
+              <FontAwesome name="search" size={20} color="#9CA3AF" />
+            </View>
 
+            {/* Text Input */}
+            <TextInput
+              placeholder="Arama Yapın"
+              placeholderTextColor="#9CA3AF"
+              className="flex-1 py-4 pr-6 text-gray-800 text-base"
+              style={{
+                fontSize: 16,
+                fontWeight: "400",
+              }}
+            />
+          </View>
+
+          {/* Filter Button */}
           <View
-            className="flex-row items-center justify-between  p-4  ml-4 rounded-3xl"
+            className="ml-3 w-14 h-14 items-center justify-center rounded-2xl shadow-sm"
             style={{ backgroundColor: colors.waterGreen }}
           >
-            <Ionicons name="filter-outline" size={27} color="white" />
+            <Ionicons name="filter-outline" size={24} color="white" />
           </View>
         </View>
       </View>
