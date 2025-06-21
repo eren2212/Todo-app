@@ -78,6 +78,7 @@ export default function TabsLayout() {
           justifyContent: "center",
           alignItems: "center",
         },
+        animation: "shift",
       }}
     >
       {/* Her bir sekme için Tabs.Screen bileşeni kullanılıyor */}
