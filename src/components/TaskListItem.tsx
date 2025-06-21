@@ -3,11 +3,10 @@ import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateTaskCompleted } from "@/task";
-import { useState } from "react";
 
 export default function TaskListItem({ task }: { task: Tables<"tasks"> }) {
-  const [isCompleted, setIsCompleted] = useState(task.is_completed);
   const queryClient = useQueryClient();
+
   const getPriorityColor = (priority: string) => {
     switch (priority?.toLowerCase()) {
       case "high":
@@ -35,12 +34,15 @@ export default function TaskListItem({ task }: { task: Tables<"tasks"> }) {
         return "tag";
     }
   };
+
   const { mutate: updateTaskMutation } = useMutation({
-    mutationFn: (taskId: string) => updateTaskCompleted(taskId, !isCompleted),
+    mutationFn: (taskId: string) =>
+      updateTaskCompleted(taskId, !task.is_completed),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },
   });
+
   return (
     <TouchableOpacity
       className="mx-4 mb-4 bg-white rounded-2xl shadow-lg border border-purple-400"
@@ -75,17 +77,16 @@ export default function TaskListItem({ task }: { task: Tables<"tasks"> }) {
           {/* Status indicator */}
           <Pressable
             className={`p-3 rounded-full ${
-              !isCompleted ? "bg-green-50" : "bg-indigo-50"
+              task.is_completed ? "bg-green-50" : "bg-gray-50"
             }`}
             onPress={() => {
-              setIsCompleted(!isCompleted);
               updateTaskMutation(task.id.toString());
             }}
           >
             <Feather
-              name={!isCompleted ? "check-circle" : "circle"}
+              name={task.is_completed ? "check-circle" : "circle"}
               size={24}
-              color={!isCompleted ? "#10b981" : "#6b7280"}
+              color={task.is_completed ? "#10b981" : "#6b7280"}
             />
           </Pressable>
         </View>

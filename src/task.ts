@@ -17,6 +17,7 @@ export const getTasks = async (userId: string) => {
   const { data } = await supabase
     .from("tasks")
     .select("*")
+    .order("created_at", { ascending: false })
     .eq("user_id", userId)
     .throwOnError();
   return data;
