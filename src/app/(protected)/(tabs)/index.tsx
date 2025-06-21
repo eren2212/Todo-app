@@ -18,6 +18,7 @@ import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { useQuery } from "@tanstack/react-query";
 import { getTasks } from "@/task";
 import LottieView from "lottie-react-native";
+import { router } from "expo-router";
 
 export default function HomeScreen() {
   const { user } = useAuth();
@@ -140,6 +141,9 @@ export default function HomeScreen() {
 
           {/* Add Task Button */}
           <Pressable
+            onPress={() => {
+              router.push("/add");
+            }}
             className="mt-8 w-full max-w-xs mx-auto"
             style={{
               backgroundColor: colors.primary,
