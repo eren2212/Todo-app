@@ -1,5 +1,7 @@
 import { supabase } from "@/lib/supabase";
-import { Task } from "react-native";
+import { Database } from "@/types/database.types";
+
+type TaskInsert = Database["public"]["Tables"]["tasks"]["Insert"];
 
 export const onToggleComplete = async (
   taskId: string,
@@ -23,7 +25,7 @@ export const getTasks = async (userId: string) => {
   return data;
 };
 
-export const updateTask = async (taskId: string, task: Task) => {
+export const updateTask = async (taskId: string, task: TaskInsert) => {
   const { data } = await supabase
     .from("tasks")
     .update(task)
@@ -41,5 +43,22 @@ export const updateTaskCompleted = async (
     .update({ is_completed: isCompleted })
     .eq("id", taskId)
     .throwOnError();
+  return data;
+};
+
+export const createTask = async (
+  userId: string,
+  task: Omit<TaskInsert, "user_id">
+) => {
+  const { data, error } = await supabase
+    .from("tasks")
+    .insert({
+      ...task,
+      user_id: userId,
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
   return data;
 };
