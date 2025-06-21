@@ -20,18 +20,60 @@ export default function TaskListItem({ task }: { task: Tables<"tasks"> }) {
     }
   };
 
+  // Türkçe öncelik etiketleri
+  const getPriorityLabel = (priority: string) => {
+    switch (priority?.toLowerCase()) {
+      case "high":
+        return "Yüksek";
+      case "medium":
+        return "Orta";
+      case "low":
+        return "Düşük";
+      default:
+        return "Düşük";
+    }
+  };
+
   const getCategoryIcon = (category: string) => {
     switch (category?.toLowerCase()) {
       case "work":
         return "briefcase";
       case "personal":
         return "user";
+      case "shopping":
+        return "shopping-cart";
       case "health":
         return "heart";
-      case "education":
+      case "finance":
+        return "credit-card";
+      case "learning":
         return "book";
+      case "other":
+        return "tag";
       default:
         return "tag";
+    }
+  };
+
+  // Türkçe kategori etiketleri
+  const getCategoryLabel = (category: string) => {
+    switch (category?.toLowerCase()) {
+      case "work":
+        return "İş";
+      case "personal":
+        return "Kişisel";
+      case "shopping":
+        return "Alışveriş";
+      case "health":
+        return "Sağlık";
+      case "finance":
+        return "Finans";
+      case "learning":
+        return "Öğrenme";
+      case "other":
+        return "Diğer";
+      default:
+        return "Genel";
     }
   };
 
@@ -95,31 +137,35 @@ export default function TaskListItem({ task }: { task: Tables<"tasks"> }) {
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center gap-3">
             {/* Priority badge */}
-            <View
-              className={`px-3 py-1.5 rounded-full border ${getPriorityColor(
-                task.priority || "low"
-              )}`}
-            >
-              <Text
-                className={`text-xs font-semibold uppercase tracking-wide ${
-                  getPriorityColor(task.priority || "low").split(" ")[1]
-                }`}
+            {task.priority && (
+              <View
+                className={`px-3 py-1.5 rounded-full border ${getPriorityColor(
+                  task.priority
+                )}`}
               >
-                {task.priority || "Low"}
-              </Text>
-            </View>
+                <Text
+                  className={`text-xs font-semibold uppercase tracking-wide ${
+                    getPriorityColor(task.priority).split(" ")[1]
+                  }`}
+                >
+                  {getPriorityLabel(task.priority)}
+                </Text>
+              </View>
+            )}
 
             {/* Category badge */}
-            <View className="flex-row items-center bg-gray-50 px-3 py-1.5 rounded-full border border-gray-200">
-              <Feather
-                name={getCategoryIcon(task.category || "general") as any}
-                size={12}
-                color="#6b7280"
-              />
-              <Text className="text-xs font-medium text-gray-600 ml-1.5 capitalize">
-                {task.category || "General"}
-              </Text>
-            </View>
+            {task.category && (
+              <View className="flex-row items-center bg-gray-50 px-3 py-1.5 rounded-full border border-gray-200">
+                <Feather
+                  name={getCategoryIcon(task.category) as any}
+                  size={12}
+                  color="#6b7280"
+                />
+                <Text className="text-xs font-medium text-gray-600 ml-1.5">
+                  {getCategoryLabel(task.category)}
+                </Text>
+              </View>
+            )}
           </View>
 
           <View>
