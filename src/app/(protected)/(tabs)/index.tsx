@@ -35,7 +35,7 @@ export default function HomeScreen() {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [activeFilter, setActiveFilter] = useState<
     "all" | "active" | "completed"
-  >("all");
+  >("active");
 
   const { data: tasks } = useQuery({
     queryKey: ["tasks"],
@@ -117,23 +117,18 @@ export default function HomeScreen() {
 
           {/* Notification Section */}
           <View className="flex-row items-center justify-center">
-            {/* Superanimal Animation */}
-            <View className="mr-3">
-              <LottieView
-                source={require("../../../../assets/animations/superanimal.json")}
-                autoPlay
-                loop
-                style={{
-                  width: 80,
-                  height: 80,
-                }}
-              />
-            </View>
-
             {/* Notification Icon */}
             <View className="relative">
-              <View className="w-14 h-14 rounded-full items-center justify-center border-4 border-white/30">
-                <FontAwesome name="bell" size={22} color="white" />
+              <View className="w-14 h-14 rounded-full items-center justify-center  ">
+                <LottieView
+                  source={require("../../../../assets/animations/notification2.json")}
+                  autoPlay
+                  loop
+                  style={{
+                    width: 60,
+                    height: 60,
+                  }}
+                />
               </View>
               {/* Notification Badge */}
               <View className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full items-center justify-center">

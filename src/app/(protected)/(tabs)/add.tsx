@@ -19,6 +19,7 @@ import { router } from "expo-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Database } from "@/types/database.types";
 import { createTask } from "@/task";
+import LottieView from "lottie-react-native";
 
 type TaskCategory = Database["public"]["Enums"]["task_category"];
 type TaskPriority = Database["public"]["Enums"]["task_priority"];
@@ -307,6 +308,14 @@ export default function Add() {
             </View>
           )}
         </Pressable>
+        <View className="flex-row items-center justify-center mb-10">
+          <LottieView
+            source={require("../../../../assets/animations/create.json")}
+            autoPlay
+            loop
+            style={{ width: 300, height: 300 }}
+          />
+        </View>
       </ScrollView>
 
       {/* Category Modal */}
