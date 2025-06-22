@@ -15,7 +15,11 @@ import { getTasksGroupedByDate } from "@/task";
 import { useAuth } from "@/providers/AuthProvider";
 import { Tables } from "@/types/database.types";
 import { colors } from "@/color";
-import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Feather,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
 
@@ -306,19 +310,31 @@ export default function Calendar() {
   }
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-gray-50"
-      style={{ paddingTop: insets.top }}
-    >
+    <View className="flex-1 bg-gray-50">
       {/* Header */}
-      <View className="px-6 py-4 bg-white border-b border-gray-100">
+      <View
+        style={{
+          paddingTop: insets.top + 16,
+          paddingBottom: 24,
+          paddingHorizontal: 24,
+          borderBottomLeftRadius: 24,
+          borderBottomRightRadius: 24,
+          backgroundColor: colors.primary,
+        }}
+      >
         <View className="flex-row items-center justify-between">
-          <View>
-            <Text className="text-2xl font-bold text-gray-900">Takvim</Text>
-            <Text className="text-sm text-gray-600 mt-1">
-              Görevlerinizi tarihlere göre görüntüleyin
-            </Text>
+          <View className="flex-row items-center">
+            <View className="w-16 h-16 rounded-full items-center justify-center bg-white/20">
+              <FontAwesome name="calendar" size={28} color="white" />
+            </View>
+            <View className="ml-4">
+              <Text className="text-white/80 text-sm font-medium">Takvim</Text>
+              <Text className="text-white text-xl font-bold">
+                Görevlerinizi Takip Edin
+              </Text>
+            </View>
           </View>
+
           <View className=" h-10 w-10 rounded-full justify-center items-center mt-10">
             <LottieView
               source={require("../../../../assets/animations/calendar2.json")}
@@ -460,6 +476,6 @@ export default function Calendar() {
           </Animated.View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 }
