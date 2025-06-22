@@ -91,7 +91,7 @@ export default function Profile() {
             <View className="w-24 h-24 bg-white/20 rounded-full items-center justify-center mb-4 border-4 border-white/30">
               <Image
                 source={{ uri: profile?.avatar_url }}
-                className="w-full h-full rounded-full"
+                className="w-full h-full rounded-3xl"
               />
             </View>
 
