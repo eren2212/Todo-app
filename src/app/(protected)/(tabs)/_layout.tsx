@@ -95,7 +95,7 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name="statistics"
+        name="calendar"
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
@@ -127,7 +127,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="calendar"
+        name="statistics"
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
