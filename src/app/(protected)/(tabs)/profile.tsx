@@ -71,21 +71,22 @@ export default function Profile() {
   };
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1 bg-[#6055EF] ">
       <StatusBar style="light" />
 
-      <ScrollView className="flex-1 mb-20" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 20 }}
+        bounces={true}
+      >
         {/* Header with gradient background */}
         <View
-          className="bg-gradient-to-br bg-[#6055EF] pt-16 pb-8 px-6 rounded-b-3xl"
+          className="bg-gradient-to-br bg-[#6055EF] pt-16  px-6 rounded-b-3xl"
           style={{ paddingTop: insets.top + 20 }}
         >
-          <View className="flex-row justify-between items-start mb-6">
-            <Text className="text-white text-2xl font-bold">Profil</Text>
-          </View>
-
           {/* Profile Info */}
-          <View className="items-center">
+          <View className="items-center bg-white rounded-2xl p-4">
             {/* Avatar */}
             <View className="w-24 h-24 bg-white/20 rounded-full items-center justify-center mb-4 border-4 border-white/30">
               <Image
@@ -95,15 +96,15 @@ export default function Profile() {
             </View>
 
             {/* Name and Username */}
-            <Text className="text-white text-xl font-bold mb-1">
+            <Text className="text-black text-xl font-bold mb-1">
               {profile?.full_name || "Kullanıcı"}
             </Text>
-            <Text className="text-white/80 text-base">
+            <Text className="text-black/80 text-base">
               @{profile?.username || user?.email?.split("@")[0] || "kullanici"}
             </Text>
 
             {/* Bio placeholder */}
-            <Text className="text-white/70 text-center mt-2 px-4">
+            <Text className="text-black/70 text-center mt-2 px-4">
               {profile?.bio ||
                 "Hayallerinizi gerçekleştirmenin zamanı geldi! 🚀"}
             </Text>
@@ -112,32 +113,32 @@ export default function Profile() {
             <View className="flex-row mt-6 space-x-8 gap-4">
               <View className="items-center">
                 <View className="flex-row items-center mb-1">
-                  <Feather name="target" size={16} color="white" />
-                  <Text className="text-white text-lg font-bold ml-1">
+                  <Feather name="target" size={16} color="black" />
+                  <Text className="text-black text-lg font-bold ml-1">
                     {totalTasks}
                   </Text>
                 </View>
-                <Text className="text-white/80 text-xs">Görev</Text>
+                <Text className="text-black/80 text-xs">Görev</Text>
               </View>
 
               <View className="items-center">
                 <View className="flex-row items-center mb-1">
-                  <Feather name="percent" size={16} color="white" />
-                  <Text className="text-white text-lg font-bold ml-1">
+                  <Feather name="percent" size={16} color="black" />
+                  <Text className="text-black text-lg font-bold ml-1">
                     {completionRate}
                   </Text>
                 </View>
-                <Text className="text-white/80 text-xs">Oran</Text>
+                <Text className="text-black/80 text-xs">Oran</Text>
               </View>
 
               <View className="items-center">
                 <View className="flex-row items-center mb-1">
-                  <Feather name="calendar" size={16} color="white" />
-                  <Text className="text-white text-lg font-bold ml-1">
+                  <Feather name="calendar" size={16} color="black" />
+                  <Text className="text-black text-lg font-bold ml-1">
                     {mostActiveDay.slice(0, 3)}
                   </Text>
                 </View>
-                <Text className="text-white/80 text-xs">En gün</Text>
+                <Text className="text-black/80 text-xs">En gün</Text>
               </View>
             </View>
           </View>
@@ -206,7 +207,7 @@ export default function Profile() {
 
                 <Switch
                   trackColor={{ false: "#767577", true: "#6055EF" }}
-                  thumbColor={isDarkMode ? "#6055EF" : "#f4f3f4"}
+                  thumbColor={isDarkMode ? "white" : "black"}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleDarkMode}
                   value={isDarkMode}
@@ -224,7 +225,7 @@ export default function Profile() {
                 </View>
                 <Switch
                   trackColor={{ false: "#767577", true: "#6055EF" }}
-                  thumbColor={isEnabled ? "#6055EF" : "#f4f3f4"}
+                  thumbColor={isEnabled ? "white" : "black"}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitch}
                   value={isEnabled}
