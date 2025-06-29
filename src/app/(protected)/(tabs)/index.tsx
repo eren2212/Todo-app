@@ -24,6 +24,7 @@ import { router } from "expo-router";
 import { useState, useMemo } from "react";
 import { Tables } from "@/types/database.types";
 import SupabaseImage from "@/components/SupabaseImage";
+import { getProfile } from "@/profile";
 
 type Task = Tables<"tasks">;
 
@@ -42,6 +43,11 @@ export default function HomeScreen() {
   const { data: tasks } = useQuery({
     queryKey: ["tasks"],
     queryFn: () => getTasks(user?.id || ""),
+  });
+
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => getProfile(user?.id || ""),
   });
 
   // Filtrelenmiş ve aranmış görevler
@@ -105,7 +111,7 @@ export default function HomeScreen() {
           <View className="flex-row items-center">
             <SupabaseImage
               bucket="avatars"
-              path={user?.user_metadata?.avatar_url}
+              path={profile?.avatar_url}
               className="w-16 h-16 rounded-full border-2 border-white/30"
             />
             <View className="ml-4">
@@ -113,7 +119,7 @@ export default function HomeScreen() {
                 Hoşgeldiniz,
               </Text>
               <Text className="text-white text-xl font-bold">
-                {user?.user_metadata?.full_name || "Eren"}
+                {profile?.full_name || "Eren"}
               </Text>
             </View>
           </View>

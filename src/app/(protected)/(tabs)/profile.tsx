@@ -76,8 +76,8 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    setAvatarUrl(profile?.avatar_url);
-  }, []);
+    setAvatarUrl(profile?.avatar_url || "");
+  }, [profile?.avatar_url]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#f8fafc" }}>
