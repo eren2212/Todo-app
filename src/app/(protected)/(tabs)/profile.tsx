@@ -1,8 +1,8 @@
 import { supabase } from "@/lib/supabase";
-import { getProfile } from "@/profile";
+import { getProfile, updateProfile } from "@/profile";
 import { getTasks } from "@/task";
 import { useAuth } from "@/providers/AuthProvider";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   View,
   Text,
@@ -16,12 +16,17 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
+import SupabaseImage from "@/components/SupabaseImage";
+import UserAvatarPicker from "@/components/UserAvatarPicker";
+import { router } from "expo-router";
+import Toast from "react-native-toast-message";
 
 export default function Profile() {
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
   const [isEnabled, setIsEnabled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState("");
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const toggleDarkMode = () => setIsDarkMode((previousState) => !previousState);
 
@@ -33,6 +38,23 @@ export default function Profile() {
   const { data: tasks } = useQuery({
     queryKey: ["tasks", user?.id],
     queryFn: () => getTasks(user?.id ?? ""),
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: () =>
+      updateProfile(user!.id, {
+        avatar_url: avatarUrl,
+      }),
+    onSuccess: () => {
+      Toast.show({
+        text1: "Profil güncellendi!",
+        type: "success",
+        position: "bottom",
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+      router.back();
+    },
   });
 
   // İstatistikleri hesapla
@@ -71,7 +93,7 @@ export default function Profile() {
   };
 
   return (
-    <View className="flex-1 bg-[#6055EF] ">
+    <View style={{ flex: 1, backgroundColor: "#f8fafc" }}>
       <StatusBar style="light" />
 
       <ScrollView
@@ -82,16 +104,32 @@ export default function Profile() {
       >
         {/* Header with gradient background */}
         <View
-          className="bg-gradient-to-br bg-[#6055EF] pt-16  px-6 rounded-b-3xl"
-          style={{ paddingTop: insets.top + 20 }}
+          style={{
+            paddingTop: insets.top + 16,
+            paddingBottom: 24,
+            paddingHorizontal: 24,
+            borderBottomLeftRadius: 24,
+            borderBottomRightRadius: 24,
+            backgroundColor: "#6055EF",
+          }}
         >
+          <View className="flex-row items-center mb-6">
+            <View className="w-16 h-16 rounded-full items-center justify-center bg-white/20">
+              <Feather name="user" size={28} color="white" />
+            </View>
+            <View className="ml-4">
+              <Text className="text-white/80 text-sm font-medium">Profile</Text>
+              <Text className="text-white text-xl font-bold">Bilgiler</Text>
+            </View>
+          </View>
+
           {/* Profile Info */}
           <View className="items-center bg-white rounded-2xl p-4">
             {/* Avatar */}
             <View className="w-24 h-24 bg-white/20 rounded-full items-center justify-center mb-4 border-4 border-white/30">
-              <Image
-                source={{ uri: profile?.avatar_url }}
-                className="w-full h-full rounded-3xl"
+              <UserAvatarPicker
+                currentAvatar={avatarUrl}
+                onUpload={setAvatarUrl}
               />
             </View>
 

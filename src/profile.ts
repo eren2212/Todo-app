@@ -9,3 +9,12 @@ export const getProfile = async (userId: string) => {
     .throwOnError();
   return data;
 };
+
+export const updateProfile = async (userId: string, profile: any) => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .update(profile)
+    .eq("id", userId)
+    .throwOnError();
+  return data;
+};
