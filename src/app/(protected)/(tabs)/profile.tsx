@@ -15,7 +15,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SupabaseImage from "@/components/SupabaseImage";
 import UserAvatarPicker from "@/components/UserAvatarPicker";
 import { router } from "expo-router";
@@ -38,23 +38,6 @@ export default function Profile() {
   const { data: tasks } = useQuery({
     queryKey: ["tasks", user?.id],
     queryFn: () => getTasks(user?.id ?? ""),
-  });
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: () =>
-      updateProfile(user!.id, {
-        avatar_url: avatarUrl,
-      }),
-    onSuccess: () => {
-      Toast.show({
-        text1: "Profil güncellendi!",
-        type: "success",
-        position: "bottom",
-        visibilityTime: 3000,
-        autoHide: true,
-      });
-      router.back();
-    },
   });
 
   // İstatistikleri hesapla
@@ -91,6 +74,10 @@ export default function Profile() {
       ]
     );
   };
+
+  useEffect(() => {
+    setAvatarUrl(profile?.avatar_url);
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#f8fafc" }}>

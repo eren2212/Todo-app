@@ -30,10 +30,6 @@ export default function UserAvatarPicker({
         queryKey: ["profile", user?.id],
       });
 
-      queryClient.invalidateQueries({
-        queryKey: ["posts"],
-      });
-
       Toast.show({
         text1: "Avatar güncellendi!",
         type: "success",

@@ -23,11 +23,13 @@ import LottieView from "lottie-react-native";
 import { router } from "expo-router";
 import { useState, useMemo } from "react";
 import { Tables } from "@/types/database.types";
+import SupabaseImage from "@/components/SupabaseImage";
 
 type Task = Tables<"tasks">;
 
 export default function HomeScreen() {
   const { user } = useAuth();
+  console.log(JSON.stringify(user, null, 2));
   const insets = useSafeAreaInsets();
 
   // State'ler
@@ -101,8 +103,9 @@ export default function HomeScreen() {
       >
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
-            <Image
-              source={{ uri: "https://i.pravatar.cc/150?img=1" }}
+            <SupabaseImage
+              bucket="avatars"
+              path={user?.user_metadata?.avatar_url}
               className="w-16 h-16 rounded-full border-2 border-white/30"
             />
             <View className="ml-4">
